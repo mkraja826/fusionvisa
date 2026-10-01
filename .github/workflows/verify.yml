@@ -47,3 +47,50 @@ jobs:
           path: out
           if-no-files-found: error
           retention-days: 3
+
+      - name: Install browser for visual QA
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Capture mobile and desktop previews
+        run: |
+          python3 -m http.server 4173 --directory out >/tmp/fusion-preview.log 2>&1 &
+          cat > /tmp/capture.mjs <<'EOF'
+          import { chromium } from 'playwright';
+
+          const browser = await chromium.launch({ headless: true });
+          const routes = [
+            ['home', '/'],
+            ['services', '/services/'],
+            ['destinations', '/destinations/'],
+            ['scholarships', '/scholarships/'],
+            ['ielts', '/ielts/'],
+            ['education-loans', '/education-loans/'],
+            ['contact', '/contact/'],
+          ];
+
+          for (const [name, route] of routes) {
+            const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            await mobile.goto('http://127.0.0.1:4173' + route, { waitUntil: 'networkidle' });
+            await mobile.screenshot({ path: 'qa-screens/' + name + '-mobile.png', fullPage: true });
+            await mobile.close();
+          }
+
+          const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+          await desktop.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+          await desktop.screenshot({ path: 'qa-screens/home-desktop.png', fullPage: true });
+          await desktop.close();
+
+          await browser.close();
+          EOF
+          mkdir -p qa-screens
+          node /tmp/capture.mjs
+
+      - name: Upload visual QA screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: fusion-visual-qa
+          path: qa-screens
+          if-no-files-found: error
+          retention-days: 3
