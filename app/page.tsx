@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import FAQ from "@/components/FAQ";
 import LeadForm from "@/components/LeadForm";
 import SectionHeader from "@/components/SectionHeader";
 import { destinations, processSteps, services, whatsappUrl } from "@/lib/site";
@@ -168,6 +169,8 @@ export default function HomePage() {
           <LeadForm compact />
         </div>
       </section>
+
+      <FAQ />
     </>
   );
 }
