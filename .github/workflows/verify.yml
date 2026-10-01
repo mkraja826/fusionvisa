@@ -75,15 +75,39 @@ jobs:
 
           for (const [name, route] of routes) {
             const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
-            await mobile.goto('http://127.0.0.1:4173' + route, { waitUntil: 'networkidle' });
+            const mobileResponse = await mobile.goto('http://127.0.0.1:4173' + route, { waitUntil: 'networkidle' });
+            if (!mobileResponse || mobileResponse.status() >= 400) {
+              throw new Error(`Route ${route} returned ${mobileResponse?.status() ?? 'no response'}`);
+            }
+            const mobileAudit = await mobile.evaluate(() => ({
+              viewport: document.documentElement.clientWidth,
+              scroll: document.documentElement.scrollWidth,
+              h1: document.querySelectorAll('h1').length,
+            }));
+            if (mobileAudit.scroll > mobileAudit.viewport + 1) {
+              throw new Error(`Horizontal overflow on ${route}: ${mobileAudit.scroll}px > ${mobileAudit.viewport}px`);
+            }
+            if (mobileAudit.h1 !== 1) {
+              throw new Error(`Expected exactly one H1 on ${route}, found ${mobileAudit.h1}`);
+            }
             await mobile.screenshot({ path: 'qa-screens/' + name + '-mobile.png', fullPage: true });
             await mobile.close();
-          }
 
-          const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-          await desktop.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-          await desktop.screenshot({ path: 'qa-screens/home-desktop.png', fullPage: true });
-          await desktop.close();
+            const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+            const desktopResponse = await desktop.goto('http://127.0.0.1:4173' + route, { waitUntil: 'networkidle' });
+            if (!desktopResponse || desktopResponse.status() >= 400) {
+              throw new Error(`Desktop route ${route} returned ${desktopResponse?.status() ?? 'no response'}`);
+            }
+            const desktopAudit = await desktop.evaluate(() => ({
+              viewport: document.documentElement.clientWidth,
+              scroll: document.documentElement.scrollWidth,
+            }));
+            if (desktopAudit.scroll > desktopAudit.viewport + 1) {
+              throw new Error(`Desktop horizontal overflow on ${route}: ${desktopAudit.scroll}px > ${desktopAudit.viewport}px`);
+            }
+            await desktop.screenshot({ path: 'qa-screens/' + name + '-desktop.png', fullPage: true });
+            await desktop.close();
+          }
 
           await browser.close();
           EOF
