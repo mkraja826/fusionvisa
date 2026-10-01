@@ -39,6 +39,10 @@ export default function SiteFooter() {
           </div>
         </div>
       </div>
+      <div className="shell footer-disclaimer">
+        Admission, scholarship, visa and education-loan outcomes are decided by the relevant universities,
+        scholarship providers, immigration authorities and lenders. Fusion Abroad Services does not guarantee outcomes.
+      </div>
       <div className="shell footer-bottom">
         <span>© 2026 Fusion Abroad Services</span>
         <span>Guiding you Beyond Borders</span>
