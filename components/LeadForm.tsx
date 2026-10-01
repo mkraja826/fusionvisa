@@ -30,7 +30,7 @@ export default function LeadForm({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <form className={compact ? "lead-form lead-form-compact" : "lead-form"} onSubmit={submit}>
+    <form className={compact ? "lead-form lead-form-compact" : "lead-form"} onSubmit={submit} aria-label="Study abroad enquiry">
       <div className="form-head">
         <span className="mini-icon"><MessageCircle size={18} /></span>
         <div>
@@ -41,30 +41,30 @@ export default function LeadForm({ compact = false }: { compact?: boolean }) {
       <div className="form-grid">
         <label>
           <span>Your name</span>
-          <input name="name" placeholder="Enter your name" required />
+          <input name="name" autoComplete="name" placeholder="Enter your name" required />
         </label>
         <label>
           <span>Course interested in</span>
-          <input name="course" placeholder="e.g. MS Data Science" required />
+          <input name="course" autoComplete="off" placeholder="e.g. MS Data Science" required />
         </label>
         <label>
           <span>Preferred country</span>
-          <input name="country" placeholder="USA, UK, Europe..." required />
+          <input name="country" autoComplete="country-name" placeholder="USA, UK, Europe..." required />
         </label>
         <label>
           <span>Qualification</span>
-          <input name="qualification" placeholder="e.g. B.Tech / Degree" />
+          <input name="qualification" autoComplete="off" placeholder="e.g. B.Tech / Degree" />
         </label>
         <label>
           <span>Approx. budget</span>
-          <input name="budget" placeholder="Your study budget" />
+          <input name="budget" inputMode="text" autoComplete="off" placeholder="Your study budget" />
         </label>
         <label>
           <span>Preferred intake</span>
-          <input name="intake" placeholder="e.g. Fall 2027" />
+          <input name="intake" autoComplete="off" placeholder="e.g. Fall 2027" />
         </label>
       </div>
-      <button className="btn btn-primary btn-full" type="submit" disabled={sending}>
+      <button className="btn btn-primary btn-full" type="submit" disabled={sending} aria-busy={sending}>
         {sending ? "Opening WhatsApp…" : "Continue on WhatsApp"} <ArrowUpRight size={18} />
       </button>
       <p className="form-note">
