@@ -37,6 +37,12 @@ export const metadata: Metadata = {
     description:
       "Study abroad guidance for admissions, visas, scholarships, IELTS, applications and education finance.",
   },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  manifest: "/manifest.webmanifest",
 };
 
 export const viewport: Viewport = {
