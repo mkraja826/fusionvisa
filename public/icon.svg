@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Fusion Abroad Services">
+  <defs>
+    <linearGradient id="g" x1="18" y1="12" x2="108" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4B74AD"/>
+      <stop offset="1" stop-color="#32377B"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="#F4F7FB"/>
+  <path d="M64 16c15 11 30 16 45 18v25c0 27-18 42-45 55C37 101 19 86 19 59V34c15-2 30-7 45-18Z" fill="none" stroke="url(#g)" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M38 72c12-2 22-7 30-16l7-8 4 11-4 8 18-6c4-1 7 1 8 4-1 4-4 6-8 7l-22 7-10 17-5-2 2-16-17 5-3-11Z" fill="#32377B"/>
+  <circle cx="45" cy="54" r="6" fill="#4B74AD"/>
+</svg>
