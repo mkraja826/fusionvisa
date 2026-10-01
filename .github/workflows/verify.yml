@@ -40,6 +40,9 @@ jobs:
           test -f out/education-loans/index.html
           test -f out/contact/index.html
 
+      - name: Cloudflare deploy dry run
+        run: npx wrangler deploy --dry-run
+
       - name: Upload static preview
         uses: actions/upload-artifact@v4
         with:
