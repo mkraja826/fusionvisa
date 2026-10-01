@@ -56,7 +56,7 @@ jobs:
       - name: Capture mobile and desktop previews
         run: |
           python3 -m http.server 4173 --directory out >/tmp/fusion-preview.log 2>&1 &
-          cat > /tmp/capture.mjs <<'EOF'
+          cat > capture.mjs <<'EOF'
           import { chromium } from 'playwright';
 
           const browser = await chromium.launch({ headless: true });
@@ -85,7 +85,7 @@ jobs:
           await browser.close();
           EOF
           mkdir -p qa-screens
-          node /tmp/capture.mjs
+          node capture.mjs
 
       - name: Upload visual QA screenshots
         uses: actions/upload-artifact@v4
